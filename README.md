@@ -1,5 +1,4 @@
 # MQyog
-======
 [![wercker status](https://app.wercker.com/status/d19e73df9017e9c60bebd47368c5f2bd/s "wercker status")](https://app.wercker.com/project/bykey/d19e73df9017e9c60bebd47368c5f2bd)
 
 MQyog is a simple HTTP message queue written in Go with Tokyo Cabinet.
