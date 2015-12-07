@@ -43,6 +43,10 @@ export PKG_CONFIG_PATH=/usr/local/tokyocabinet-1.4.47/lib/pkgconfig/
 export GOPATH=/project/golang/
 export PATH=$PATH:/usr/local/go/bin
 
+vim /etc/ld.so.conf
+#add a new line :    /usr/local/tokyocabinet-1.4.47/lib
+/sbin/ldconfig -v
+
 go get github.com/codegangsta/negroni
 
 
