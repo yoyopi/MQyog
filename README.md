@@ -39,7 +39,7 @@ cd ../
 
 tar -xzf go1.4.2.linux-amd64.tar.gz -C /usr/local/
 which pkg-config
-export PKG_CONFIG_PATH=/usr/local/tokyocabinet/lib/pkgconfig/
+export PKG_CONFIG_PATH=/usr/local/tokyocabinet-1.4.47/lib/pkgconfig/
 export GOPATH=/project/golang/
 export PATH=$PATH:/usr/local/go/bin
 
@@ -50,7 +50,6 @@ cd /project/golang/src/mq
 go build
 go install
 /project/golang/bin/mq
-    -auth="": auth password to access httpmq
     -cpu=1: cpu number for httpmq
     -ip="0.0.0.0": ip address to listen on
     -maxqueue=1000000: the max queue length
