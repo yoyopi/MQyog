@@ -14,6 +14,7 @@ _"net"
 "net/http"
 "github.com/codegangsta/negroni"
 "io/ioutil"
+"bytes"
 )
 const VERSION = "0.8" 
 var default_maxqueue, keepalive, cpu  *int
@@ -217,7 +218,7 @@ func main() {
 			maxqueue, _ := strconv.Atoi(metadata[0])
 			putpos, _ := strconv.Atoi(metadata[1])
 			getpos, _ := strconv.Atoi(metadata[2])
-
+			var buffer bytes.Buffer
 			var ungetnum float64
 			var put_times, get_times string
 			if putpos >= getpos {
@@ -230,15 +231,22 @@ func main() {
 				get_times = "1st lap"
 			}
 
-			buf := fmt.Sprintf("MQ v%s\n", VERSION)
-			buf += fmt.Sprintf("------------------------------\n")
-			buf += fmt.Sprintf("Queue Name: %s\n", name)
-			buf += fmt.Sprintf("Maximum number of queues: %d\n", maxqueue)
-			buf += fmt.Sprintf("Put position of queue (%s): %d\n", put_times, putpos)
-			buf += fmt.Sprintf("Get position of queue (%s): %d\n", get_times, getpos)
-			buf += fmt.Sprintf("Number of unread queue: %g\n\n", ungetnum)
+//			buf := fmt.Sprintf("MQ v%s\n", VERSION)
+//			buf += fmt.Sprintf("------------------------------\n")
+//			buf += fmt.Sprintf("Queue Name: %s\n", name)
+//			buf += fmt.Sprintf("Maximum number of queues: %d\n", maxqueue)
+//			buf += fmt.Sprintf("Put position of queue (%s): %d\n", put_times, putpos)
+//			buf += fmt.Sprintf("Get position of queue (%s): %d\n", get_times, getpos)
+//			buf += fmt.Sprintf("Number of unread queue: %g\n\n", ungetnum)
+			buffer.WriteString(fmt.Sprintf("MQ v%s", VERSION))
+			buffer.WriteString("\r\n----------------")
+			buffer.WriteString(fmt.Sprintf("\r\n Queue Name: %s", name))
+			buffer.WriteString(fmt.Sprintf("\r\n maximum number of queues: %d", maxqueue))
+			buffer.WriteString(fmt.Sprintf("\r\n Put position of queue (%s): %d", put_times, putpos))
+			buffer.WriteString(fmt.Sprintf("\r\n Get position of queue (%s): %d", get_times, getpos))
+			buffer.WriteString(fmt.Sprintf("\r\n Number of unread queue: %g", ungetnum))
 
-			w.Write([]byte(buf))
+			w.Write([]byte(buffer.String()))
 		} else if opt == "view" {
 			v, err := db.Get([]byte(name+pos))
 			if err == nil {
