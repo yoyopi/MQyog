@@ -247,6 +247,25 @@ func main() {
 			buffer.WriteString(fmt.Sprintf("\r\n Number of unread queue: %g", ungetnum))
 
 			w.Write([]byte(buffer.String()))
+		} else if opt == "status_json" {
+			metadata := mq_read_metadata(name)
+			maxqueue, _ := strconv.Atoi(metadata[0])
+			putpos, _ := strconv.Atoi(metadata[1])
+			getpos, _ := strconv.Atoi(metadata[2])
+			var buf []byte
+			var ungetnum float64
+			var put_times, get_times string
+			if putpos >= getpos {
+				ungetnum = math.Abs(float64(putpos - getpos))
+				put_times = "1st lap"
+				get_times = "1st lap"
+			} else if putpos < getpos {
+				ungetnum = math.Abs(float64(maxqueue - getpos + putpos))
+				put_times = "2nd lap"
+				get_times = "1st lap"
+			}
+                   buf := fmt.Sprintf( "{\"name\":\"%s\",\"maxqueue\":%d,\"putpos\":%d,\"getpos\":%d,\"unread\":%d}\n", name, maxqueue, putpos, getpos,ungetnum ) 
+			w.Write([]byte(buf))
 		} else if opt == "view" {
 			v, err := db.Get([]byte(name+pos))
 			if err == nil {
