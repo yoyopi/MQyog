@@ -264,7 +264,7 @@ func main() {
 				put_times = "2nd lap"
 				get_times = "1st lap"
 			}
-                   buf := fmt.Sprintf( "{\"name\":\"%s\",\"maxqueue\":%d,\"putpos\":%d,\"getpos\":%d,\"unread\":%d}\n", name, maxqueue, putpos, getpos,ungetnum ) 
+                   buf := fmt.Sprintf("{\"name\":\"%s\",\"maxqueue\":%d,\"putpos\":%d,\"putlap\":%s,\"getpos\":%d,\"getlap\":%s,\"unread\":%g}\n", name, maxqueue, putpos, put_times, getpos, get_times, ungetnum ) 
 			w.Write([]byte(buf))
 		} else if opt == "view" {
 			v, err := db.Get([]byte(name+pos))
